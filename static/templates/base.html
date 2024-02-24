@@ -1,0 +1,19 @@
+{% load static  %}
+<!DOCTYPE html>
+<html lang="en">
+<body >
+  {% include 'main_navbar.html' %}
+    {% if 'profile' in request.path %}
+      {% include 'dash_navbar.html' %}
+    {% endif %}
+  <div class="col-md-auto">
+    {% block content %}
+    {% endblock %}
+  </div>
+</div>
+</div>
+</body>
+  {% if not user.is_authenticated %}
+    {% include 'footer.html' %}
+  {% endif %}
+</html>

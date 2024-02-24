@@ -1,0 +1,35 @@
+{% load static  %}
+
+<div class="container">
+    <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 py-5 my-5 border-top">
+      <div class="col mb-3">
+        <a href="{% url 'news' %}" >
+          <img src="{% static 'images/etudiant.tn.2.png' %}" alt="Etudiant.tn Logo 2" class="img-fluid">
+        </a>
+        <p class="text-body-secondary">© 2023</p>
+      </div>
+      <div class="col mb-3">
+      </div>
+        <div class="col mb-3">
+          <h5>Emplois & Stages</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2"><a href="{% url 'offer_list' %}" class="nav-link p-0 text-body-secondary">Offres</a></li>
+            <li class="nav-item mb-2"><a href="{% url 'test_offers' %}" class="nav-link p-0 text-body-secondary">Tests</a></li>
+          </ul>
+        </div>
+        <div class="col mb-3">
+          <h5>Vie éstudiantine</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2"><a href="{% url 'rent_offers' %}" class="nav-link p-0 text-body-secondary">Logements</a></li>
+          </ul>
+        </div>
+        <div class="col mb-4">
+          <h5>Etudiant.tn</h5>
+          <ul class="nav flex-column">
+            <li class="nav-item mb-2"><a class="nav-link p-0 text-body-secondary" href="{% url 'register' %}">S'inscrire</a></li>
+            <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-body-secondary">Contactez-nous</a></li>
+          </ul>
+        </div>
+
+    </footer>
+  </div>

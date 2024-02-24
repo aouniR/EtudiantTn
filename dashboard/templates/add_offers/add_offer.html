@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{%load static %}
+{% block content %}
+<head>
+  <title>{% block title %} Etudiant.tn - Add offer {% endblock %} </title>
+  <link rel="stylesheet" type="text/css" href="{% static  'custom_css/sb-admin-2.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static  'custom_css/all.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body class="bg-light">
+<div class="container mt-5 mb-5">
+<h4 >Ajouter une offre</h4>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="company">Company:</label>
+            <input type="text" class="form-control" id="company" name="company" required>
+        </div>
+        <div class="form-group">
+            <label for="location">Location:</label>
+            <input type="text" class="form-control" id="location" name="location" required>
+        </div>
+        <div class="form-group">
+            <label for="level">Level:</label>
+            <select class="form-control" id="level" name="level" required>
+                <option value="">Select Level</option>
+                <option value="Entry">Entry</option>
+                <option value="Mid">Mid</option>
+                <option value="Senior">Senior</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="salary">Salary:</label>
+            <input type="number" class="form-control" id="salary" name="salary" required>
+        </div>
+        <div class="form-group">
+            <label for="offer_type">Offer Type:</label>
+            <select class="form-control" id="offer_type" name="offer_type" required>
+                <option value="">Select Offer Type</option>
+                <option value="Full Time">Full Time</option>
+                <option value="Part Time">Part Time</option>
+                <option value="Contract">Contract</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="period">Period:</label>
+            <select class="form-control" id="period" name="period" required>
+                <option value="">Select Period</option>
+                <option value="Permanent">Permanent</option>
+                <option value="Temporary">Temporary</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+</body>
+
+{% endblock %}

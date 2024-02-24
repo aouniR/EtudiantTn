@@ -1,0 +1,321 @@
+{% extends 'base.html' %}
+{%load static %}
+{% block content %}
+<head>
+  <title>{% block title %} Etudiant.tn - CV Student {% endblock %} </title>
+  <link rel="stylesheet" type="text/css" href="{% static  'custom_css/sb-admin-2.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static  'custom_css/all.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <img src="{{ user.profile_picture.url}}" alt="{{ user.profile_picture.url }}" width="150" height="150" class="rounded-circle me-2">
+              <h5 class="my-3">{{user.name}}</h5>
+              <p class="text-muted mb-1">Dernière connexion :{{user.last_login}} </p>
+              <p class="text-muted mb-4">Date d'inscription :{{user.date_joined}} </p>
+              <div class="d-flex justify-content-center mb-1">
+                <button type="button" class="btn btn-outline-primary ms-1" data-toggle="modal" data-target="#PhotoModal">Changer photo</button>
+              </div>
+            </div>
+          </div>      
+        </div>
+        <div class="col-lg-8">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Full Name</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{user.name}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Email</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{user.email}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Phone</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{user.phone}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Address</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{user.address}} - {{user.city}} {{user.zip_code}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">CV</p>
+                </div>
+                <div class="col-sm-9 d-flex align-items-center">
+                  {% if CV %}
+                    <a  href="{% url 'downloadCV' %}"  class="btn btn-outline-success" download>Download CV</a>
+                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#CVModal">Changer CV</button>
+                  {% else %}
+                    <span class="text-muted mr-3">No CV uploaded</span>
+                    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#CVModal">Ajouter CV</button>
+                  {% endif %}
+                </div>
+              </div>              
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Other Docs</p>
+                </div>
+                <div class="col-sm-9 d-flex align-items-center">
+                  {% if OtherDoc %}
+                    <a href="{% url 'downloadOtherDoc' %}" class="btn btn-outline-success" download>Download Docs</a>
+                    <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#OtherDocsModal">Changer Docs</button>
+                  {% else %}
+                    <span class="text-muted mr-3">No docs uploaded</span>
+                    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#OtherDocsModal">Ajouter Docs</button>
+                  {% endif %}
+                </div>
+              </div>   
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card mb-4 mb-md-0">
+                <div class="card-body">
+                  <p class="mb-4"><button type="button" class="btn btn-link"  data-toggle="modal" data-target="#SkillsModal">Skills</button></p>
+                  {% for skill in skills.all %}
+                    <p>{{ skill.skill_name }}</p>
+                    <div class="progress" role="progressbar" aria-label="Info example" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+                      <div class="progress-bar bg-info" style= "width: {{ skill.level }}%;"></div>
+                    </div>
+                  {% endfor %}                                           
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card mb-4 mb-md-0">
+                <div class="card-body">
+                  <p class="mb-4"><button type="button" class="btn btn-link"  data-toggle="modal" data-target="#EducationModal">Education</button></p>
+                  {% for education in educations.all %}
+                  <div class="education-item">
+                    <p><strong>Cycle Type:</strong> {{ education.cycle_type }}</p>
+                    <p><strong>Type of Training:</strong> {{ education.type_of_training }}</p>
+                    <p><strong>Institution:</strong> {{ education.institution }}</p>
+                    <p><strong>Field of Study:</strong> {{ education.field_of_study }}</p>
+                    <p><strong>Period:</strong> {{ education.period }}</p>
+                    <a href="{% url 'delete_education' education.id %}" class="btn btn-sm btn-outline-danger" >Delete</a>
+                  </div>
+                {% endfor %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+<!-- CVModal -->
+<div class="modal fade" id="CVModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Changer le CV</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" enctype="multipart/form-data" action="{% url 'save_Cv_pdf' %}">
+        {% csrf_token %}
+      <div class="modal-body">
+        <div class="input-group input-group-sm mb-3">
+          <label class="input-group-text" for="inputGroupFile01">CV</label>
+          <input type="file" name="new_cv_pdf" class="form-control form-control-sm" id="id_new_cv_pdf">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">fermer</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<!-- OtherDocsModal -->
+<div class="modal fade" id="OtherDocsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Changer Other Docs</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" enctype="multipart/form-data" action="{% url 'save_Other_Docs_pdf' %}">
+        {% csrf_token %}
+      <div class="modal-body">
+        <div class="input-group input-group-sm mb-3">
+          <label class="input-group-text" for="inputGroupFile01">Other Docs</label>
+          <input type="file" name="new_Other_Docs_pdf" class="form-control form-control-sm" id="id_new_Other_Docs_pdf">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">fermer</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<!-- PhotoModal -->
+<div class="modal fade" id="PhotoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Changer photo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" enctype="multipart/form-data" action="{% url 'save_photo' %}">
+        {% csrf_token %}
+      <div class="modal-body">
+        <div class="input-group input-group-sm mb-3">
+          <label class="input-group-text" for="inputGroupFile01">Photo</label>
+          <input type="file" name="new_Photo" class="form-control form-control-sm" id="id_new_Photo">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">fermer</button>
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+<!-- SkillsModal -->
+<div class="modal fade" id="SkillsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Skills</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{% url 'save_skills' %}">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+          <table class="table" id="skillsTable">
+            <thead>
+              <tr>
+                <th scope="col">Skill</th>
+                <th scope="col">Level</th>
+                <th scope="col">Actions</th>  <!-- Added a column for actions -->
+              </tr>
+            </thead>
+            <tbody>
+              {% for skill in skills.all %}
+                <tr>
+                  <td>{{ skill.skill_name }}</td>
+                  <td>{{ skill.level }}</td>
+                  <td>
+                    <a href="{% url 'delete_skill' skill.id %}" class="btn btn-sm btn-outline-danger" >Delete</a>
+                  </td>
+                </tr>
+              {% endfor %}
+              <tr>
+                <td><input type="text" name="new_skill_name" value="{{ form.new_skill_name.value }}" size="10"></td>
+                <td><input type="text" name="new_level" value="{{ form.new_level.value }}" ></td>
+                <td>
+                  <button type="submit" class="btn  btn-sm btn-outline-info" size="5">Add</button>
+                </td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EducationModal -->
+<div class="modal fade" id="EducationModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Education</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="{% url 'save_education' %}">
+          {% csrf_token %}
+          {{ EForm.non_field_errors }}
+          <div class="form-group">
+            <label for="cycleType">Cycle Type:</label>
+            <select class="form-control" id="cycleType" name="cycle_type" required>
+              {% for choice in EForm.fields.cycle_type.choices %}
+                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="trainingType">Type of Training:</label>
+            <select class="form-control" id="trainingType" name="type_of_training" required>
+              {% for choice in EForm.fields.type_of_training.choices %}
+                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="institution">Institution:</label>
+            <input type="text" class="form-control" id="institution" name="institution" required>
+          </div>
+          <div class="form-group">
+            <label for="fieldOfStudy">Field of Study:</label>
+            <input type="text" class="form-control" id="fieldOfStudy" name="field_of_study" required>
+          </div>
+          <div class="form-group">
+            <label for="period">Period:</label>
+            <input type="text" class="form-control" id="period" name="period" required>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Add Education</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+{% endblock %}

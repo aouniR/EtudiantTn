@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{%load static %}
+{% block content %}
+<head>
+  <title>{% block title %} Etudiant.tn - News  {% endblock %} </title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static  'custom_css/css_msg.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static  'custom_css/sb-admin-2.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static  'custom_css/all.min.css' %}">
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</head>
+<body class="bg-light">
+  <div class="card mb-4 reduced-card rounded text-body-emphasis bg-info-subtle">
+    <a href="{% url 'detail_news' pk=featured_news.pk %}">
+      <img class="card-img-top" src="{{ featured_news.image.url }}" alt="{{ featured_article.title }}" />
+    </a>    
+      <h2><a href="{% url 'detail_news' pk=featured_news.pk %}">{{ featured_news.title }}</a></h2>
+      <div class="small text-muted">{{ featured_news.pub_date }}</div>
+  </div>
+  <div class="row g-5">
+    <div class="col-md-8">
+      <h3 class="pb-4 mb-4 fst-italic border-bottom">Article principal</h3>
+      <article class="blog-post">
+      <h2 class="display-5 link-body-emphasis mb-1">{{main_article.title}}</h2>
+      <p class="blog-post-meta">{{main_article.pub_date}}</p>
+      <p>{{main_article.content}}</p>
+    </div>
+    <div class="col-md-4">
+      <div class="position-sticky" style="top: 2rem;">
+        <div>
+          <h4 class="fst-italic">Articles en vedette récents</h4>
+          <ul class="list-unstyled">
+            {% for recent_news in recent_news_articles %}
+              <li>
+                <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="{% url 'detail_news' pk=recent_news.pk %}">
+                  <img class="bd-placeholder-img" width="100%" height="96" src="{{ recent_news.image.url }}" alt="{{ recent_news.title }}" />
+                  <div class="col-lg-8">
+                    <h6 class="mb-0">{{ recent_news.title }}</h6>
+                    <small class="text-body-secondary">{{ recent_news.pub_date }}</small>
+                  </div>
+                </a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>        
+      </div>
+    </div>
+  </div>
+</body>
+{% endblock %}

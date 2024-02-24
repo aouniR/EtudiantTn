@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{%load static %}
+{% block content %}
+<head>
+  <title>{% block title %} Etudiant.tn - Article  {% endblock %} </title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static  'custom_css/css_msg.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static  'custom_css/sb-admin-2.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static  'custom_css/all.min.css' %}">
+  <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</head>
+<body class="bg-light">
+  <header class="masthead" style="background-image: url('{{ news_article.image.url }}')">
+    <div class="overlay"></div>
+      <div class="container">
+        <div class="row">
+         <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <h1 style="color:cornsilk;">{{ news_article.title }}</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <hr>
+        <p>{{ news_article.content }}</p>
+        <hr>
+        <p class="text-body-secondary">{{ news_article.pub_date }}</p>
+        <hr>
+        <div class="clearfix">
+          <a class="btn btn-primary float-left" href="{% url 'previous_news' pk=news_article.pk %}">← Previous Post </a>
+          <a class="btn btn-primary float-right" href="{% url 'next_news' pk=news_article.pk %}">Next Post →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+{% endblock %}

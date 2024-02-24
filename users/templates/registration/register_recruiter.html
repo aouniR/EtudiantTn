@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{%load static %}
+{% block content %}
+<head>
+  <title>{% block title %} Etudiant.tn - Register Recruiter {% endblock %} </title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body class="bg-light">
+  <div class="container-fluid">
+    <div class="row justify-content-center">
+      <div class="col-md-6 mt-5">
+        <div class="card">
+          <div class="card-body">
+            <h2 class="text-center mb-4"> Inscription Recruiter</h2>
+            <form method="post" enctype="multipart/form-data" class="text-center">
+                {% csrf_token %}
+                  <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">{{ user_form.email.label_tag }}</span>
+                    <input type="email" class="form-control" name="email" maxlength="254" required="" id="id_email">
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">{{ user_form.password1.label_tag }}</span>
+                    <input type="password" class="form-control" name="password1" autocomplete="new-password" required="" id="id_password1">
+                  </div>   
+                  <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">{{ user_form.password2.label_tag }}</span>
+                    <input type="password" class="form-control" name="password2" autocomplete="new-password" required="" id="id_password2">
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">{{ user_form.name.label_tag }}</span>
+                    <input type="text" class="form-control" name="name" maxlength="25" required="" id="id_name">
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">{{ user_form.address.label_tag }}</span>
+                    <input type="text" class="form-control" name="address" maxlength="100" required="" id="id_address">
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">{{ user_form.city.label_tag }}</span>
+                    <input type="text" class="form-control" name="city" maxlength="50" required="" id="id_city">
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">{{ user_form.zip_code.label_tag }}</span>
+                    <input type="number" class="form-control" name="zip_code" required="" id="id_zip_code">
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">{{ user_form.phone.label_tag }} </span>
+                    <input type="text" class="form-control" name="phone" maxlength="20" required="" id="id_phone">
+                  </div>
+                  <div class="input-group input-group-sm mb-3">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">{{ recruiter_profile_form.description.label_tag }}</span>
+                    <textarea  class="form-control" id="id_description" rows="3"></textarea>
+                  </div>
+                  {% if messages %}
+                  <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <ul>
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                  {% endif %}
+                  <div class="mb-3">
+                    <button type="submit" class="btn btn-outline-success">S'inscrire !</button>
+                  </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+{% endblock %}
